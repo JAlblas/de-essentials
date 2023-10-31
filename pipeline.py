@@ -11,7 +11,7 @@ def fetch_data():
     """ 
     Fetches data from https://api.energidataservice.dk/meta/dataset/Gasflow into a variable
     """
-    url = 'https://api.energidataservice.dk/dataset/PowerSystemRightNow?limit=100'
+    url = 'https://api.energidataservice.dk/dataset/PowerSystemRightNow?limit=1000'
     data = requests.get(url).json()
     return data["records"]
 
@@ -20,6 +20,9 @@ def transform(data):
     """ Transforms the dataset"""
     df = pd.DataFrame(data)
     print(f"Total number of rows {len(data)}")
+
+    df.drop(columns=['aFRR_ActivatedDK1', 'aFRR_ActivatedDK2',
+            'mFRR_ActivatedDK1', 'mFRR_ActivatedDK2', 'ImbalanceDK1', 'ImbalanceDK2'], inplace=True)
     return df
 
 
